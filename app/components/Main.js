@@ -20,7 +20,7 @@ componentDidMount: function() {
 		}
 	}.bind(this));
 },
-//data stuff may be specific to model in expample or just hte parameter in fn
+
 componentDidUpdate: function() {
 	helpers.runQuery(this.state.searchTerm).then(function(data) {
 		if (data !== this.state.results) {
@@ -40,8 +40,8 @@ componentDidUpdate: function() {
 
 },
 
-setTerm: function(term) {
-	this.setState({ searchTerm: term });
+setTerm: function(topic, startDate, endDate) {
+	this.setState({ searchTerm: topic });
 },
 
 render: function() {

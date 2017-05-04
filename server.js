@@ -3,7 +3,9 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-var Articles = require("./models/Articles");
+mongoose.Promise = Promise;
+
+var Article = require("./models/Articles");
 
 var app = express();
 
@@ -11,15 +13,13 @@ var PORT = process.env.PORT || 3000;
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json"}));
 
-app.use(express.static("./public"));
+app.use(express.static(process.cwd() + "./public"));
 
-mongoose.connect("mongodb://localhost/NYTReact");
-
-// mongoose.connect();
+mongoose.connect("mongodb://localhost/nytreact");
 var db = mongoose.connection;
 
 db.on("error", function(err) {
@@ -50,7 +50,7 @@ app.get("/api", function(req, res) {
 app.post("/api", function(req, res) {
 	console.log("Body: " + req.body.title);
 
-	Articles.create({
+	Article.create({
 		title: req.body.title,
 		date: req.body.date,
 		url: req.body.url 
